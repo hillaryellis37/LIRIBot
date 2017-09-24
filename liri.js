@@ -11,7 +11,6 @@ for (var key in keys) {
   keysArray.push(keys[key]);
 }
 
-console.log(keysArray);
 
 var Twitter = require('twitter');
  
@@ -22,10 +21,14 @@ var client = new Twitter({
   access_token_secret: keysArray[3]
 });
  
-var params = {screen_name: 'nodejs'};
+var params = {screen_name: 'HillZillary'};
 client.get('statuses/user_timeline', params, function(error, tweets, response) {
   if (!error) {
-    console.log(tweets);
+
+  	for (var i = 0; i < tweets.length; i++) {
+  		console.log(tweets[i].text);
+  	}
+  
   }
 });
 
