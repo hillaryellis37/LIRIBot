@@ -1,7 +1,7 @@
 var keys = require("./keys.js");
 var arg1 = process.argv[2];
-var songName = process.argv[3];
 var keysArray = [];
+var songName; 
 
 
 // accessing ALL key elements (Twitter & Spotify) from keys.js with for loop and throwing each key into the keysArray:
@@ -43,29 +43,39 @@ else if (arg1 === "spotify-this-song") {
 	  id: keysArray[4],
 	  secret: keysArray[5]
 	});
-	 
-	spotify.search({ type: 'track', query: songName }, function(err, data) {
-	  if (err) {
-	    return console.log('Error occurred: ' + err);
-	  }
 
-		var artistArray = data.tracks.items[0].artists;
-		var artists = '';
-	// creating a 4-loop here to capture all artists and concatenate them to a string in artists variable:
-		for (var i = 0; i < artistArray.length; i++) {
-			artists = artists + " " + data.tracks.items[0].artists[0].name;
-		}
+	if (process.argv.length >= 4) {
 
-		var song = data.tracks.items[0].name;
-		var previewURL = data.tracks.items[0].preview_url;
-		var album = data.tracks.items[0].album.name;
+		songName = process.argv[3];
+	
+	} else {
+		
+		songName = "Ace of Base - The Sign";
+	}
 
-		console.log(
-			"Artist(S): ", artists,
-			"\nSong Title: ", song,
-			"\nPreview Link: ", previewURL,
-			"\nAlbum; ", album);
-	});
+		spotify.search({ type: 'track', query: songName }, function(err, data) {
+		  if (err) {
+		    return console.log('Error occurred: ' + err);
+		  }
+
+			var artistArray = data.tracks.items[0].artists;
+			var artists = '';
+		// creating a 4-loop here to capture all artists and concatenate them to a string in artists variable:
+			for (var i = 0; i < artistArray.length; i++) {
+				artists = artists + " " + data.tracks.items[0].artists[0].name;
+			}
+
+			var song = data.tracks.items[0].name;
+			var previewURL = data.tracks.items[0].preview_url;
+			var album = data.tracks.items[0].album.name;
+
+			console.log(
+				"Artist(S): ", artists,
+				"\nSong Title: ", song,
+				"\nPreview Link: ", previewURL,
+				"\nAlbum; ", album);
+		});
+	
 }
 // spotify-this-song section
 
