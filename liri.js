@@ -35,6 +35,8 @@ if (arg1 === "my-tweets") {
 	});
 }
 
+// spotify-this-song section
+
 else if (arg1 === "spotify-this-song") {
 
 	var Spotify = require('node-spotify-api');
@@ -53,31 +55,35 @@ else if (arg1 === "spotify-this-song") {
 		songName = "Ace of Base - The Sign";
 	}
 
-		spotify.search({ type: 'track', query: songName }, function(err, data) {
-		  if (err) {
+	spotify.search({ type: 'track', query: songName }, function(err, data) {
+		if (err) {
 		    return console.log('Error occurred: ' + err);
-		  }
+		}
 
-			var artistArray = data.tracks.items[0].artists;
-			var artists = '';
+		var artistsArray = data.tracks.items[0].artists;
+		var artists = '';
 		// creating a 4-loop here to capture all artists and concatenate them to a string in artists variable:
-			for (var i = 0; i < artistArray.length; i++) {
-				artists = artists + " " + data.tracks.items[0].artists[0].name;
+		for (var i = 0; i < artistsArray.length; i++) {
+			if (artists.length > 1) {
+				artists = artists + ", " + data.tracks.items[0].artists[i].name;
+			} else {
+				artists = data.tracks.items[0].artists[0].name
 			}
+		}
 
-			var song = data.tracks.items[0].name;
-			var previewURL = data.tracks.items[0].preview_url;
-			var album = data.tracks.items[0].album.name;
+		var song = data.tracks.items[0].name;
+		var previewURL = data.tracks.items[0].preview_url;
+		var album = data.tracks.items[0].album.name;
 
-			console.log(
-				"Artist(S): ", artists,
-				"\nSong Title: ", song,
-				"\nPreview Link: ", previewURL,
-				"\nAlbum; ", album);
-		});
+		console.log(
+			"Artist(S): ", artists,
+			"\nSong Title: ", song,
+			"\nPreview Link: ", previewURL,
+			"\nAlbum; ", album);
+	});
 	
 }
-// spotify-this-song section
+
 
 
 
