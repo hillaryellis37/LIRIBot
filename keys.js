@@ -8,6 +8,8 @@ var Keys = {
 
   spotify_client_ID: '51213b4252c447929683d52988f6b9c9',
   spotify_client_secret: '1915b9073fbd4b90bb057f757aab24ae',
+
+  omdb_key: `40e9cece`
 }
 
 module.exports = Keys;

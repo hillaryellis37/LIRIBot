@@ -55,6 +55,8 @@ else if (arg1 === "spotify-this-song") {
 		songName = "Ace of Base - The Sign";
 	}
 
+	
+
 	spotify.search({ type: 'track', query: songName }, function(err, data) {
 		if (err) {
 		    return console.log('Error occurred: ' + err);
@@ -84,9 +86,53 @@ else if (arg1 === "spotify-this-song") {
 	
 }
 
+// movie-this section:
+
+else if (arg1 === 'movie-this') {
+
+	var title;
+
+	if (process.argv.length >= 4) {
+
+		title = process.argv[3];
+	
+	} else {
+		
+	title = 'Mr. Nobody';
+	
+	}
+
+	var dataRequest = 'http://www.omdbapi.com/?t=' + title + '&y=&plot=short&apikey=' + keysArray[6];
+	console.log(dataRequest);
+	var request = require('request');
+	
+	request(dataRequest, function (error, response, body) {
+	  	// console.log('error:', error); // Print the error if one occurred
+	  	// console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+
+	  	var obj = JSON.parse(body);
+
+	  	var title = obj.Title; 
+        var year = obj.Year;
+        var IMDB_Rating = obj.Ratings[0].Value;
+       	var RT_Rating = obj.Ratings[1].Value;
+        var country = obj.Country;
+       	var language = obj.Language;
+        var plot = obj.Plot;
+        var actors = obj.Actors;
+
+        console.log(
+        "Title: ", title,
+        "\nYear Released: ", year,
+       	"\nIMDB Rating: ", IMDB_Rating,
+       	"\nRotten Tomatoes Rating: ", RT_Rating, 
+        "\nCountry produced: ", country,
+       	"\nLanguage: ", language,
+       	"\nPlot: ", plot,
+       	"\nActors: ", actors,);
+	});
+}
 
 
-
-// movie-this
 
 // do-what-it-says
