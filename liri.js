@@ -10,10 +10,8 @@ for (var key in keys) {
   keysArray.push(keys[key]);
 }
 
-// Twitter section:
- 
-if (arg1 === "my-tweets") {
 
+function myTweets() {
 	var Twitter = require('twitter');
  
 	var client = new Twitter({
@@ -33,12 +31,10 @@ if (arg1 === "my-tweets") {
 	  
 	  }
 	});
+
 }
 
-// spotify-this-song section
-
-else if (arg1 === "spotify-this-song") {
-
+function spotify(song) {
 	var Spotify = require('node-spotify-api');
 	 
 	var spotify = new Spotify({
@@ -47,11 +43,12 @@ else if (arg1 === "spotify-this-song") {
 	});
 
 	if (process.argv.length >= 4) {
-
 		songName = process.argv[3];
-	
-	} else {
-		
+	} 
+	else if (song != 1) {
+		songName = song;
+
+	} else {	
 		songName = "Ace of Base - The Sign";
 	}
 
@@ -83,23 +80,22 @@ else if (arg1 === "spotify-this-song") {
 			"\nPreview Link: ", previewURL,
 			"\nAlbum; ", album);
 	});
-	
 }
 
-// movie-this section:
-
-else if (arg1 === 'movie-this') {
-
+function movie(movietitle) {
 	var title;
 
 	if (process.argv.length >= 4) {
 
 		title = process.argv[3];
-	
+	}
+
+	else if (movietitle != 1) {
+		title = movietitle;
+
 	} else {
 		
-	title = 'Mr. Nobody';
-	
+		title = 'Mr. Nobody';	
 	}
 
 	var dataRequest = 'http://www.omdbapi.com/?t=' + title + '&y=&plot=short&apikey=' + keysArray[6];
@@ -133,6 +129,50 @@ else if (arg1 === 'movie-this') {
 	});
 }
 
+function doIt() {
+	var fs = require("fs");
+  
+  	fs.readFile("random.txt", "utf8", function(error, data) {
 
+ 	if (error) {
+    	return console.log(error);
+  	}
+  
+  	var dataArr = data.split(",");
 
-// do-what-it-says
+  	var argument = dataArr[0];
+  	var content = dataArr[1];
+
+  	if (argument === "my-tweets") {
+	myTweets();	
+	}
+	else if (argument === "spotify-this-song") {
+		spotify(content);	
+	}
+	else if (argument === 'movie-this') {
+		movie(content);
+	} else {
+		console.log("There seems to be a typo within the random.txt file. Please check it out.")
+	}
+
+  });
+
+}
+
+ 
+if (arg1 === "my-tweets") {
+	myTweets();	
+}
+
+else if (arg1 === "spotify-this-song") {
+	spotify(1);	
+}
+
+else if (arg1 === 'movie-this') {
+	movie(1);
+}
+// do what is says section: 
+else if (arg1 === 'do-what-it-says') {
+	doIt();
+}
+
